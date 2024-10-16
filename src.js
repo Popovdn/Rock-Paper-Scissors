@@ -28,6 +28,7 @@ if (playerChoice === null) {
     startNewGame();
 }
 
+//! Get new choices when the game is ended/restarted in the beginning
 function getNewChoices() {
     playerChoice = getPlayerChoice();
     computerChoice = getComputerChoice();
@@ -68,6 +69,7 @@ function playGame() {
     startNewGame();
 }
 
+//! Initial game start
 playGame();
 
 function displayScore(playerScore, computerScore) {
@@ -80,6 +82,7 @@ function displayScore(playerScore, computerScore) {
     }
 }
 
+//! Start a new game - only works when the game ends/is cancelled at the begining, for now
 function startNewGame() {
     let newGameMessage = confirm('Wanna start a new game?');
     if (newGameMessage) {
