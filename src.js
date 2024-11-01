@@ -1,6 +1,6 @@
-const ROCK = 'Rock'.toLowerCase();
-const PAPER = 'Paper'.toLowerCase();
-const SCISSORS = 'Scissors'.toLowerCase();
+const ROCK = 'Rock';
+const PAPER = 'Paper';
+const SCISSORS = 'Scissors';
 
 let playerScore = 0;
 let computerScore = 0;
@@ -17,78 +17,72 @@ function getComputerChoice() {
     }
 }
 
-function getPlayerChoice() {
-    return prompt('Rock, paper, scissors - choose!', '');
-}
+const roundOutcome = document.querySelector('#round-outcome');
+const currentPlayerScore = document.querySelector('.player').firstElementChild;
+const currentComputerScore = document.querySelector('.computer').firstElementChild;
+const gameOutcome = document.querySelector('#game-outcome');
+const gameButtons = Array.from(document.querySelectorAll('button'));
+const newGameButton = document.createElement('button');
+const container = document.querySelector('.container');
+newGameButton.classList.add('new-game');
+newGameButton.textContent = 'Play again';
 
-let playerChoice = getPlayerChoice();
-let computerChoice = getComputerChoice();
-
-if (playerChoice === null) {
-    startNewGame();
-}
-
-//! Get new choices when the game is ended/restarted in the beginning
-function getNewChoices() {
-    playerChoice = getPlayerChoice();
-    computerChoice = getComputerChoice();
-}
-
-function playGame() {
 
     function playRound(playerChoice, computerChoice) {
-        if (playerChoice.toLowerCase() === ROCK && computerChoice === SCISSORS
-            || playerChoice.toLowerCase() === PAPER && computerChoice === ROCK
-            || playerChoice.toLowerCase() === SCISSORS && computerChoice === PAPER) {
+        if (playerChoice === ROCK && computerChoice === SCISSORS
+            || playerChoice === PAPER && computerChoice === ROCK
+            || playerChoice === SCISSORS && computerChoice === PAPER) {
             playerScore++;
-            console.log(`You win! ${playerChoice} beats ${computerChoice}`);
+            roundOutcome.textContent = `You win! ${playerChoice} beats ${computerChoice}.`;
         }
 
-        if (computerChoice === ROCK && playerChoice.toLowerCase() === SCISSORS
-            || computerChoice === PAPER && playerChoice.toLowerCase() === ROCK
-            || computerChoice === SCISSORS && playerChoice.toLowerCase() === PAPER) {
+        if (computerChoice === ROCK && playerChoice === SCISSORS
+            || computerChoice === PAPER && playerChoice === ROCK
+            || computerChoice === SCISSORS && playerChoice === PAPER) {
             computerScore++;
-            console.log(`You lose! ${computerChoice} beats ${playerChoice}`);
+           roundOutcome.textContent = `You lose! ${computerChoice} beats ${playerChoice}.`;
         }
 
         if (playerChoice === computerChoice) {
-            console.log('It\'s a tie!');
+            roundOutcome.textContent = 'It\'s a tie.'
         }
+
+        updateScore();
     }
 
-    playRound(playerChoice, computerChoice);
-    getNewChoices();
-    playRound(playerChoice, computerChoice);
-    getNewChoices();
-    playRound(playerChoice, computerChoice);
-    getNewChoices();
-    playRound(playerChoice, computerChoice);
-    getNewChoices();
-    playRound(playerChoice, computerChoice);
-    displayScore(playerScore, computerScore);
-    startNewGame();
-}
+    gameButtons.forEach((button) => button.addEventListener('click', function(event) {
+          if (playerScore < 5 && computerScore < 5) playRound(event.target.textContent, getComputerChoice());
+    }));
 
-//! Initial game start
-playGame();
+    newGameButton.addEventListener('click', startNewGame);
 
-function displayScore(playerScore, computerScore) {
+function displayGameResult(playerScore, computerScore) {
     if (playerScore > computerScore) {
-        alert('Congratulations, you win!');
+        gameOutcome.textContent = 'Game over. Congratulations, you win!';
     } else if (computerScore > playerScore) {
-        alert('Better luck next time. You lose!');
+       gameOutcome.textContent = 'Game over. Better luck next time. You lose!';
     } else {
-        alert('It\'s a tie!');
+        gameOutcome.textContent = 'Game over. It\'s a tie!';
     }
 }
 
-//! Start a new game - only works when the game ends/is cancelled at the begining, for now
-function startNewGame() {
-    let newGameMessage = confirm('Wanna start a new game?');
-    if (newGameMessage) {
-        getNewChoices();
-        playGame();
-    } else {
-        alert('Okay. Simply refresh the page when you want to play again!');
+function updateScore() {
+    currentPlayerScore.textContent = playerScore;
+    currentComputerScore.textContent = computerScore;
+    if (computerScore >= 5 || playerScore >= 5) {
+        roundOutcome.textContent = '';
+        roundOutcome.remove();
+        container.appendChild(newGameButton);
+        displayGameResult(playerScore, computerScore);
     }
+}
+
+function startNewGame() {
+    container.removeChild(newGameButton);
+    container.insertBefore(roundOutcome, gameOutcome);
+    gameOutcome.textContent = '';
+    currentPlayerScore.textContent = '0';
+    currentComputerScore.textContent = '0';
+    playerScore = 0;
+    computerScore = 0;
 }
