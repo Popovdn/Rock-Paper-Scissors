@@ -60,9 +60,7 @@ function displayGameResult(playerScore, computerScore) {
     if (playerScore > computerScore) {
         gameOutcome.textContent = 'Game over. Congratulations, you win!';
     } else if (computerScore > playerScore) {
-       gameOutcome.textContent = 'Game over. Better luck next time. You lose!';
-    } else {
-        gameOutcome.textContent = 'Game over. It\'s a tie!';
+       gameOutcome.textContent = 'Game over. The computer won, you lose!';
     }
 }
 
