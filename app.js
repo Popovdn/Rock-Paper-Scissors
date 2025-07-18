@@ -1,13 +1,6 @@
-let computerScore = 0;
-let humanScore = 0;
-
 function getComputerChoice() {
     let randomNumber = Math.floor(Math.random() * 3);
-    return randomNumber === 0
-        ? "rock"
-        : randomNumber === 1
-            ? "paper"
-            : "scissors";
+    return randomNumber === 0 ? "rock" : randomNumber === 1 ? "paper" : "scissors";
 }
 
 function getHumanChoice() {
@@ -15,41 +8,59 @@ function getHumanChoice() {
     return humanChoice;
 }
 
-function playRound(computerChoice, humanChoice) {
-    if (computerChoice === humanChoice) {
-        console.log("It's a tie.");
+function playGame() {
+
+    let computerScore = 0;
+    let humanScore = 0;
+
+    function playRound(computerChoice, humanChoice) {
+        if (computerChoice === humanChoice) {
+            console.log("It's a tie.");
+        }
+
+        if (
+            (computerChoice === "rock" && humanChoice === "scissors") ||
+            (computerChoice === "paper" && humanChoice === "rock") ||
+            (computerChoice === "scissors" && humanChoice === "paper")
+        ) {
+            computerScore++;
+            console.log(
+                `You lose! ${computerChoice.replace(computerChoice[0],
+                    computerChoice[0].toUpperCase()
+                )} beats ${humanChoice.replace(humanChoice[0],
+                    humanChoice[0].toUpperCase()
+                )}.`
+            );
+        } else if (
+            (humanChoice === "rock" && computerChoice === "scissors") ||
+            (humanChoice === "paper" && computerChoice === "rock") ||
+            (humanChoice === "scissors" && computerChoice === "paper")
+        ) {
+            humanScore++;
+            console.log(
+                `You win! ${humanChoice.replace(humanChoice[0],
+                    humanChoice[0].toUpperCase()
+                )} beats ${computerChoice.replace(computerChoice[0],
+                    computerChoice[0].toUpperCase()
+                )}.`
+            );
+        }
     }
 
-    if (
-        (computerChoice === "rock" && humanChoice === "scissors") ||
-        (computerChoice === "paper" && humanChoice === "rock") ||
-        (computerChoice === "scissors" && humanChoice === "paper")
-    ) {
-        computerScore++;
-        console.log(
-            `You lose! ${computerChoice.replace(computerChoice[0],
-                computerChoice[0].toUpperCase()
-            )} beats ${humanChoice.replace(humanChoice[0],
-                humanChoice[0].toUpperCase()
-            )}.`
-        );
-    } else if (
-        (humanChoice === "rock" && computerChoice === "scissors") ||
-        (humanChoice === "paper" && computerChoice === "rock") ||
-        (humanChoice === "scissors" && computerChoice === "paper")
-    ) {
-        humanScore++;
-        console.log(
-            `You win! ${humanChoice.replace(humanChoice[0],
-                humanChoice[0].toUpperCase()
-            )} beats ${computerChoice.replace(computerChoice[0],
-                computerChoice[0].toUpperCase()
-            )}.`
-        );
+    playRound(getComputerChoice(), getHumanChoice().toLowerCase());
+    playRound(getComputerChoice(), getHumanChoice().toLowerCase());
+    playRound(getComputerChoice(), getHumanChoice().toLowerCase());
+    playRound(getComputerChoice(), getHumanChoice().toLowerCase());
+    playRound(getComputerChoice(), getHumanChoice().toLowerCase());
+
+    if (computerScore > humanScore) {
+        console.log(`Game over. The computer's score is ${computerScore}, your score is ${humanScore} - you lose!`);
+    } else if (humanScore > computerScore) {
+        console.log(`Game over. The computer's score is ${computerScore}, your score is ${humanScore} - you win!`);
+
+    } else {
+        console.log("Game over. It's a tie!");
     }
 }
 
-const computerChoice = getComputerChoice();
-const humanChoice = getHumanChoice().toLowerCase();
-
-playRound(computerChoice, humanChoice);
+playGame();
