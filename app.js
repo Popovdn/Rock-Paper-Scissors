@@ -62,13 +62,18 @@ function playGame() {
         console.log("Game over. It's a tie!");
     }
 
-    let newGamePromt = confirm("Do you want to play a new game ?", "");
+    restartGame();
+}
 
-    if (newGamePromt) {
+function restartGame() {
+    let newGamePrompt = confirm("Do you want to play a new game ?", "");
+
+    if (newGamePrompt) {
         playGame();
     } else {
         alert('If you would like to play a new game just refresh the page.');
     }
+
 }
 
 playGame();
