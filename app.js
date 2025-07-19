@@ -4,7 +4,7 @@ function getComputerChoice() {
 }
 
 function getHumanChoice() {
-    let humanChoice = prompt("Rock, Paper, Scissors?", "");
+    let humanChoice = prompt("Rock, Paper, Scissors?", "").toLowerCase();
     return humanChoice;
 }
 
@@ -14,9 +14,6 @@ function playGame() {
     let humanScore = 0;
 
     function playRound(computerChoice, humanChoice) {
-        if (computerChoice === humanChoice) {
-            console.log("It's a tie.");
-        }
 
         if (
             (computerChoice === "rock" && humanChoice === "scissors") ||
@@ -31,11 +28,9 @@ function playGame() {
                     humanChoice[0].toUpperCase()
                 )}.`
             );
-        } else if (
-            (humanChoice === "rock" && computerChoice === "scissors") ||
-            (humanChoice === "paper" && computerChoice === "rock") ||
-            (humanChoice === "scissors" && computerChoice === "paper")
-        ) {
+        } else if (computerChoice === humanChoice) {
+            console.log("It's a tie.");
+        } else {
             humanScore++;
             console.log(
                 `You win! ${humanChoice.replace(humanChoice[0],
@@ -47,11 +42,11 @@ function playGame() {
         }
     }
 
-    playRound(getComputerChoice(), getHumanChoice().toLowerCase());
-    playRound(getComputerChoice(), getHumanChoice().toLowerCase());
-    playRound(getComputerChoice(), getHumanChoice().toLowerCase());
-    playRound(getComputerChoice(), getHumanChoice().toLowerCase());
-    playRound(getComputerChoice(), getHumanChoice().toLowerCase());
+    playRound(getComputerChoice(), getHumanChoice());
+    playRound(getComputerChoice(), getHumanChoice());
+    playRound(getComputerChoice(), getHumanChoice());
+    playRound(getComputerChoice(), getHumanChoice());
+    playRound(getComputerChoice(), getHumanChoice());
 
     if (computerScore > humanScore) {
         console.log(`Game over. The computer's score is ${computerScore}, your score is ${humanScore} - you lose!`);
@@ -73,7 +68,6 @@ function restartGame() {
     } else {
         alert('If you would like to play a new game just refresh the page.');
     }
-
 }
 
 playGame();
